@@ -1,0 +1,62 @@
+{% extends "main/base.html" %}
+{% load add_class %}
+
+{% block title %}
+    Account Reset | Club Hub
+{% endblock %}
+
+{% block content %}
+    <div id="events">
+        <div class="row">
+            <div class="three columns">
+                <button class="css-button-link button button-primary u-full-width"
+                        data-link="{% url 'index' %}">&lt; Home
+                </button>
+            </div>
+        </div>
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="event">
+                <div class="headerbar row">
+                    <div class="title six columns">
+                        <p>Account Reset</p>
+                    </div>
+                    <div class="date six columns" align="right" style="display: none;">1</div>
+                </div>
+                <div class="eventbody">
+                    <div class="row">
+                        <div class="three columns" style="min-height: 1px;"></div>
+                        <div class="six columns">
+                            <div class="errorlist">
+                                {% if form.errors %}
+                                    <p>Please correct the errors below.</p>
+                                {% endif %}
+                            </div>
+                            <p>Enter the email address associated with your account to receive directions.</p>
+                            {% for field in form %}
+                                <div class="row">
+                                    <div class="twelve columns">
+                                        {{ field.label_tag }}
+                                        {% if field.help_text %}
+                                            <div class="help">{{ field.help_text|safe }}</div>
+                                        {% endif %}
+                                        {{ field|add_class:"u-full-width preview-part" }}
+                                        {{ field.errors }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="row">
+                                <div class="twelve columns">
+                                    <input type="submit" class="button button-primary u-full-width" value="Submit"/>
+                                    <input type="hidden" name="next" value="{{ next }}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="three columns" style="min-height: 1px;"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

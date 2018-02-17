@@ -1,0 +1,38 @@
+body {
+    background-color: #1f2246;
+    color: white;
+}
+
+.button {
+    color: white;
+    border-color: white;
+}
+
+.button:hover {
+    color: white;
+    border-color: white;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.button-primary {
+    background-color: rgba(85, 153, 255, 0.5) !important;
+}
+
+input {
+    background-color: transparent !important;
+    color: white;
+}
+
+input::placeholder {
+    color: white;
+}
+
+select {
+    color: black;
+}
+
+.protip {
+    background-color: transparent;
+    color: white;
+    border-color: white;
+}

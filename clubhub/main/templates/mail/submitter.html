@@ -1,0 +1,121 @@
+{% load staticfiles %}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <style>
+        #wrapper {
+            font-family: 'Roboto', sans-serif !important;
+            font-weight: 300 !important;
+            max-width: 800px !important;
+            padding: 0 5% !important;
+        }
+
+        hr {
+            margin-bottom: 3vh;
+            border-width: 0;
+            border-top: 1px solid #E1E1E1;
+        }
+
+        .event {
+            width: 100%;
+            border: 1px solid #ff5555;
+            clear: both;
+        }
+
+        .headerbar {
+            background-color: #ff5555;
+            color: white;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .headerbar p {
+            margin: 0;
+            padding: 1% 2%;
+            font-size: 1.2rem;
+        }
+
+        .eventbody {
+            padding: 2%;
+        }
+
+        #logo {
+            display: block;
+            width: 50%;
+            margin: 3vh auto 4vh auto;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'media/Club_Hub_Branding.png' %}" id="logo"/>
+    <hr>
+    <div class="event">
+        <div class="headerbar">
+            <div class="title"><p>Registration Confirmation</p></div>
+        </div>
+        <div class="eventbody">
+            <p>Hello!</p>
+            <p>Your submisson for <b>{{ event_name }}</b> has been received. A Club Hub Approver will review it for
+                approval shortly.
+                If it is approved, you'll be able to see it in the Club Hub registry at <a
+                        href="{{ request.scheme }}://{{ request.get_host }}">{{ request.scheme }}://{{ request.get_host }}</a>,
+                so check there for updates.</p>
+            <p>For corrections, questions, and concerns, please contact the Club Hub Administrator at <a
+                    href="mailto:{{ CLUBHUB_CONTACT_EMAIL }}">{{ CLUBHUB_CONTACT_EMAIL }}</a>.</p>
+
+            <p>Here are the details of your submission:</p>
+            <table style="width: 100%">
+                <tr>
+                    <td>EVENT NAME</td>
+                    <td>{{ event_name }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT HOST</td>
+                    <td>{{ event_host }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT START DATETIME</td>
+                    <td>{{ event_start }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT END DATETIME</td>
+                    <td>{{ event_end }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT DESCRIPTION</td>
+                    <td>{{ event_body|safe }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT LOCATION</td>
+                    <td>{{ event_location }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT POSTER?</td>
+                    <td>{{ event_poster }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT HUB GROUPS</td>
+                    <td>{{ event_hub_groups }}</td>
+                </tr>
+                <tr>
+                    <td>SLIDESHOW?</td>
+                    <td>{{ display_slideshow }}</td>
+                </tr>
+                <tr>
+                    <td>FULLSCREEN?</td>
+                    <td>{{ display_fullscreen }}</td>
+                </tr>
+            </table>
+
+            <p>Thank you for using Club Hub!</p>
+        </div>
+    </div>
+    <p align="center" style="color: gray; font-size: 0.8em;"><i>
+        This is an automated message. Responses should be sent directly to the
+        Club Hub Administrator at <a href="mailto:{{ CLUBHUB_CONTACT_EMAIL }}">{{ CLUBHUB_CONTACT_EMAIL }}</a></i>.</p>
+</div>
+</body>
+</html>

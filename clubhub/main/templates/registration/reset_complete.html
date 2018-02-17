@@ -1,0 +1,16 @@
+{% extends "main/base_message.html" %}
+
+{% block message %}
+    <p><b>Account Recovery Complete</b></p>
+    <p>Your password has been successfully saved.</p>
+    <p align="center">
+        <button class="button button-primary css-button-link"
+                data-link="{% url 'login' %}">
+            Proceed to Login
+        </button>
+    </p>
+{% endblock %}
+
+{#Empty to disable autoback.#}
+{% block autoback %}
+{% endblock %}

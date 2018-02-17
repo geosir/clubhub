@@ -1,0 +1,11 @@
+{% extends "main/base_message.html" %}
+
+{% block message %}
+    <p><b>Invalid Confirmation Token</b></p>
+    <p>The token you provided is no longer valid. Please contact your Club Hub adminstrator
+        at <a href="mailto:{{ CLUBHUB_CONTACT_EMAIL }}">{{ CLUBHUB_CONTACT_EMAIL }}</a> for help.</p>
+{% endblock %}
+
+{#Empty to disable autoback.#}
+{% block autoback %}
+{% endblock %}

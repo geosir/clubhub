@@ -1,0 +1,201 @@
+{% extends "main/base.html" %}
+{% load tz %}
+{% load add_class %}
+{% load staticfiles %}
+
+{% block title %}Submit | Club Hub{% endblock %}
+
+{% block css-headers %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static "meta/bower_components/flatpickr/dist/flatpickr.min.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "meta/quill/quill.snow.css" %}"/>
+    <style>
+        /* Style registration form */
+        #events label {
+            display: inline;
+        }
+
+        #editor {
+            height: 10rem;
+        }
+
+        #id_hub_group {
+            height: 5rem;
+        }
+
+        /* Style preview frame */
+        #slide-preview {
+            display: block;
+            width: 1920px;
+            height: 1080px;
+            margin: 0 auto;
+            border: 1px solid rgb(100, 100, 100);
+
+            user-select: none;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -o-user-select: none;
+        }
+    </style>
+{% endblock %}
+
+{% block js-headers %}
+    <script src="{% static "meta/bower_components/flatpickr/dist/flatpickr.min.js" %}"></script>
+    <script src="{% static "meta/quill/quill.min.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+    {% get_current_timezone as TIME_ZONE %}
+    {% timezone TIME_ZONE %}
+
+        <!-- A description of the submission process. -->
+        <div class="protip">
+            <p><b>Register your event with Club Hub.</b></p>
+            <p>Complete the form below to enter your event into the Club Hub database.
+                After you submit, a Club Hub Approver will review your event for approval.</p>
+        </div>
+        <div id="events">
+            <form method="POST" id="submission-form" class="form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+
+                <div class="event">
+                    <div class="headerbar row">
+                        <div class="title six columns">
+                            <p>1. Event Registration Form</p>
+                        </div>
+                        <div class="date six columns" align="right" style="display: none;">1</div>
+                    </div>
+                    <div class="eventbody">
+                        {% for field in form %}
+                            <div class="row">
+                                <div class="twelve columns">
+                                    {{ field.label_tag }}
+                                    {% if field.help_text %}
+                                        <div class="help">{{ field.help_text|safe }}</div>
+                                    {% endif %}
+                                    {{ field|add_class:"u-full-width preview-part" }}
+                                    {{ field.errors }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="event">
+                    <div class="headerbar row">
+                        <div class="title six columns">
+                            <p>2. Event Preview</p>
+                        </div>
+                        <div class="date six columns" align="right" style="display: none;">2</div>
+                    </div>
+                    <div class="eventbody">
+                        <iframe id="slide-preview"></iframe>
+                    </div>
+                </div>
+
+                <div class="event">
+                    <div class="headerbar row">
+                        <div class="title six columns">
+                            <p>3. Submit!</p>
+                        </div>
+                        <div class="date six columns" align="right" style="display: none;">3</div>
+                    </div>
+                    <div class="eventbody">
+                        <input type="submit" class="big-button button-primary"
+                               style="display: block; margin: 0 auto;"/>
+                    </div>
+                </div>
+
+                <script>
+                    $(document).ready(function () {
+                        // Setup text editor
+                        var $event_body = $("#id_event_body");
+                        $event_body.attr("novalidate", "");
+                        $event_body.removeAttr("required");
+                        $event_body.after('<div id="editor" class="u-full-width"></div>');
+                        $event_body.hide();
+                        var quill = new Quill('#editor', {
+                            modules: {
+                                toolbar: [
+                                    ['bold', 'italic', 'underline', 'strike'],
+                                    ['link']
+                                ]
+                            },
+                            theme: 'snow',
+                            formats: ['bold', 'italic', 'underline', 'strike', 'link']
+                        });
+                        quill.on("text-change", function () {
+                            $("#id_event_body").val(JSON.stringify(quill.getContents()))
+                                .trigger('change');
+                        });
+
+                        // Setup date/time picker
+                        $("#id_event_start_datetime").flatpickr({
+                            enableTime: true,
+                            altInput: true
+                        });
+                        $("#id_event_end_datetime").flatpickr({
+                            enableTime: true,
+                            altInput: true
+                        });
+
+                        // Style checkboxes
+                        $('input[type="checkbox"]').removeClass("u-full-width");
+
+                        // Setup live poster preview
+                        // -- Save poster upload
+                        var poster_blob = undefined;
+                        $("#id_poster_file").on("change", function (event) {
+                            poster_blob = URL.createObjectURL(event.target.files[0]);
+                        });
+
+                        // -- Scale the preview window
+                        var $preview = $("#slide-preview");
+                        var scale = $(window).width() / 1920 * $preview.parent().width() / $(window).width();
+                        $preview.css({transform: "scale(" + scale + ")", transformOrigin: "top left"});
+                        $preview.parent().height($preview.parent().width() / 16 * 9);
+
+                        // -- A quick-and-dirty function to turn quill text into preview content
+                        function prepareHTML(string) {
+                            return String(string)
+                                .replace(/<strong>/g, "<b>")
+                                .replace(/<\/strong>/g, "</b>")
+                                .replace(/<em>/g, "<i>")
+                                .replace(/<\/em>/g, "</i>")
+                                .replace(/<\/p>\s*<p>/g, "\n")
+                                .replace(/<p>/g, "")
+                                .replace(/<\/p>/g, "")
+                                .replace(/<br>/g, "")
+                                .replace(/&nbsp/g, " ")
+                                .replace(/<span .+<\/span>/g, "");
+                        }
+
+                        // Use the Slide Factory to generate a slide preview.
+                        function updatePreview() {
+                            var params = "?" +
+                                "name=" + $("#id_event_name").val() + "&" +
+                                "host=" + $("#id_event_host").val() + "&" +
+                                "body=" + encodeURIComponent(prepareHTML($("#editor .ql-editor").html())) + "&" +
+                                "start=" + $("#id_event_start_datetime").val() + "&" +
+                                "end=" + $("#id_event_end_datetime").val() + "&" +
+                                "location=" + $("#id_event_location option:selected").text() + "&" +
+                                "specific_location=" + $("#id_event_specific_location").val() + "&" +
+                                "fullscreen=" + $("#id_display_fullscreen").prop("checked") + "&" +
+                                "poster=" + (poster_blob ? poster_blob : "");
+
+                            $preview.attr("src", "{% url "factory.slides" %}" + params);
+                        }
+
+                        $("#submission-form").change(updatePreview);
+                        updatePreview();
+                    })
+                    ;
+                </script>
+            </form>
+        </div>
+
+    {% endtimezone %}
+
+{% endblock %}

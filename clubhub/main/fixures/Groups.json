@@ -1,0 +1,26 @@
+[
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "Approvers",
+      "permissions": [
+        7,
+        8,
+        9
+      ]
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+      "name": "Editors",
+      "permissions": [
+        7,
+        8,
+        9
+      ]
+    }
+  }
+]

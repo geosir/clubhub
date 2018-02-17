@@ -1,0 +1,234 @@
+{% extends "main/base.html" %}
+{% load sanitize %}
+{% load staticfiles %}
+{% load tz %}
+
+{% localtime on %}
+
+    {% block title %}Club Hub{% endblock %}
+
+    {% block css-headers %}
+        {% if is_party %}
+            <link rel="stylesheet" type="text/css" href="{% static "meta/parties.css" %}"/>
+        {% endif %}
+    {% endblock %}
+
+    {% block content %}
+        <!-- The main menu -->
+        <div class="row">
+            <button class="button button-primary u-full-width" id="togglemenu">
+                Show Menu
+            </button>
+            <div id="mainmenu">
+                <!-- The event registration button -->
+                <a class="six columns"
+                   href="{% url "submit" %}">
+                    <button class="button button-primary u-full-width">
+                        Register an Event
+                    </button>
+                </a>
+                <!-- A feedback link. You should change the URL to link to your own feedback form. -->
+                <a class="three columns"
+                   href="https://docs.google.com/forms/d/e/1FAIpQLScbYRvZXMghPjJOks-U1I24ifcuMamIw0ffY19xE5Cq_x3emg/viewform">
+                    <button class="button u-full-width">
+                        Feedback
+                    </button>
+                </a>
+                {% if user.is_authenticated %}
+                    <!-- Logout button -->
+                    <a class="three columns"
+                       href="{% url 'logout' %}">
+                        <button class="button u-full-width">
+                            Logout
+                        </button>
+                    </a>
+                {% else %}
+                    <!-- Login button -->
+                    <a class="three columns"
+                       href="{% url 'login' %}">
+                        <button class="button u-full-width">
+                            Login
+                        </button>
+                    </a>
+                {% endif %}
+                </a>
+            </div>
+        </div>
+        <!-- The searchbar -->
+        <div class="row">
+            <input class="u-full-width" type="text" placeholder="SEARCH" id="searchbar">
+        </div>
+        <div class="row" id="searchinfo" style="display: none">
+            <div class="ten columns">
+                <p id="searchecho"></p>
+            </div>
+            <div class="two columns" align="right">
+                <p><a id="searchhelp-toggle" href="javascript:void(0)">Search Help</a></p>
+            </div>
+        </div>
+        <div class="row" id="searchhelp" style="display: none;">
+            <div class="protip">
+                <p><b>
+                    Advanced Search with Club Hub
+                </b></p>
+                <p style="text-align: left">
+                    The Club Hub search bar is very powerful! You can use some special techniques to filter events with
+                    ease.
+                </p>
+                <ul style="font-size: 1rem;">
+                    <li>
+                        A standard search looks for events which contain ALL of the search terms in ANY ORDER, in
+                        ANY PART of the event. Searches are not case-sensitive.<br/>
+                        Example: the search <u>science fair</u> will match <u>Fair practices
+                        in science</u>.
+                    </li>
+                    <li>
+                        To look for a phrase in a specific order, put the phrase in quotation marks.<br/>
+                        Example: the search <u>"science fair"</u> will match
+                        <u>school science fair</u> but will NOT match <u>fair practices in science</u>.
+                    </li>
+                    <li>
+                        Multiple searches can be combined by using the <b><u>or</u></b> operator.<br/>
+                        Example: the search <u>science or fair</u> will match <u>lecture on
+                        science classes</u>.
+                    </li>
+                    <li>
+                        Searches ordinarily look at ALL the text in an event's entry.
+                        To narrow the search to specific attributes like location and title, you can use the following
+                        keywords: <b><u>title:</u> <u>host:</u> <u>description:</u> <u>location:</u>
+                        <u>starts:</u> <u>ends:</u></b>. These terms set the search
+                        scope for the terms that follow it. To reset the scope, use <b><u>body:</u></b>.<br/>
+                        Example: <u>location: Mars</u> will match an event whose location contains the word "Mars".
+                    </li>
+                    <li>
+                        Some words, like <b><u>or</u></b>, <b><u>and</u></b>, <b><u>location:</u></b>, etc. are special
+                        keywords.
+                        To explicitly search for these words, wrap them in quotation marks.<br/>
+                        Example: the search <u>"location:" Mars</u> will match an event contains the text <u>location:
+                        Mars</u>
+                    </li>
+                </ul>
+                <p style="text-align: left">
+                    To help you check your search, Club Hub will write down what it thinks you're looking for
+                    underneath the search bar. You can use this to help structure your search.
+                </p>
+            </div>
+        </div>
+        <!-- The table of events itself. -->
+        <div id="events">
+            {% for poster in posters %}
+                <!-- An event -->
+                <div class="event" id="{{ poster.uuid }}"
+                     data-name="{{ poster.event_name }}"
+                     data-host="{{ poster.event_host }}"
+                     data-start="{{ poster.event_start_datetime|date:"U" }}"
+                     data-end="{{ poster.event_end_datetime|date:"U" }}"
+                     data-loc="{{ poster.event_location }}"
+                     data-spec-loc="{{ poster.event_specific_location }}">
+
+                    <!-- Stick headerbar content -->
+                    <a href="#{{ poster.uuid }}">
+                        <div class="headerbar row">
+                            <div class="title six columns">
+                                <p>{{ forloop.counter }}. {{ poster.event_host }}</p>
+                            </div>
+                            <div class="date six columns">
+                                <p align="right">{{ poster.event_start_datetime|date:"l, F j" }}</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- The event body -->
+                    <div class="eventbody">
+                        <div class="titlerow row">
+                            <div class="six columns">
+                                <h1 class="event-title">{{ poster.event_name }}</h1>
+                                <p class="event-host"><i>By {{ poster.event_host }}</i></p>
+                            </div>
+                            <div class="six columns">
+                                <p class="event-start-time">
+                                    <b>Starts:</b> {{ poster.event_start_datetime|date:"l, F j, Y \a\t g:i A" }}
+                                </p>
+                                <p class="event-end-time">
+                                    <b>Ends:</b> {{ poster.event_end_datetime|date:"l, F j, Y \a\t g:i A" }}
+                                </p>
+                                <p class="event-loc">
+                                    <b>Location:</b> {{ poster.event_location }}
+                                    {% if poster.event_specific_location %}
+                                        ({{ poster.event_specific_location }})
+                                    {% endif %}
+                                </p>
+
+                                <!-- Indicate that an event is campus-internal. -->
+                                {% if poster.internal %}
+                                    <p class="internal">[ Campus-Internal Event ]</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="body row">
+                            {% if poster.poster_file %}
+                                <div class="four columns">
+                                    <img class="event-poster gallerize" src="{{ poster.poster_file.url }}">
+                                </div>
+                                <div class="eight columns">
+                                    <p class="event-desc">{{ poster.event_body|sanitize }}</p>
+                                </div>
+                            {% else %}
+                                <div class="twelve columns">
+                                    <p class="event-desc">{{ poster.event_body|sanitize }}</p>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Media action buttons -->
+                        <div class="row mediabuttons">
+                            <div class="twelve columns" align="right">
+                                {% if poster.rsvp_link %}
+                                    <button class="rsvpbutton button css-button-link"
+                                            data-link="{{ poster.rsvp_link }}"
+                                            data-newtab=true>
+                                        RSVP
+                                    </button>
+                                {% endif %}
+                                {% if poster.external_link %}
+                                    <button class="externbutton button css-button-link"
+                                            data-link="{{ poster.external_link }}"
+                                            data-newtab=true>
+                                        Event Page
+                                    </button>
+                                {% endif %}
+                                <button class="gcalbutton button css-button-link"
+                                        data-link="{{ poster.gcal_link }}"
+                                        data-newtab=true>
+                                    Google Calendar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% if posters.count == 0 %}
+                <!-- Shows if there are no posters available -->
+                <div id="noevents" class="protip">
+                    <p>You're too early! No events have been scheduled here yet.
+                        Try checking back later or <a href="{% url 'submit' %}">registering</a> some.</p>
+                </div>
+            {% endif %}
+
+            <!-- Shows if all the posters been hidden by a search. -->
+            <div id="noresults" class="protip">
+                <p>*crickets*...No events match that description! Try broadening your search.</p>
+            </div>
+        </div>
+
+        <!-- Sample disclaimer -->
+        <!-- <div class="protip">
+            <p><i>Club Hub is an <b>official</b> service. The events in this table <b>have been approved</b> by Student
+                Life.</i></p>
+        </div> -->
+
+    {% endblock %}
+
+{% endlocaltime %}

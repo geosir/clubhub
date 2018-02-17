@@ -1,0 +1,287 @@
+/* The Club Hub Event Listing Stylesheets */
+/* Import fonts */
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+/* Set global styles */
+html {
+    width: 100%;
+    font-size: 12pt;
+}
+
+body {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+html, body {
+    height: 100vh;
+}
+
+p {
+    font-size: 1rem;
+}
+
+h1,
+h2 {
+    font-family: 'Roboto Slab', serif;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+hr {
+    margin: 0 auto 2vh 0;
+}
+
+input, select {
+    font-size: 1rem;
+}
+
+/* Protip Styling */
+
+.protip {
+    margin: 0 0 3vh 0;
+    height: auto;
+    color: rgb(100, 100, 100);
+    background-color: rgb(240, 240, 240);
+    border-radius: 4px;
+    padding: 0.5em;
+    border: 1px solid rgb(100, 100, 100);
+}
+
+.protip p,
+.protip a {
+    color: inherit;
+    text-align: center;
+    margin: 0.5rem 0;
+}
+
+.protip a:hover {
+    font-weight: 400;
+}
+
+/* Logo styling */
+
+.logobox {
+    width: 80vw;
+    margin: 5vh auto;
+    clear: both;
+}
+
+@media (min-width: 750px) {
+    .logobox {
+        width: 60vw;
+    }
+}
+
+@media (min-width: 1000px) {
+    .logobox {
+        width: 30vw;
+    }
+}
+
+.logobox img {
+    vertical-align: middle;
+    width: 100%;
+    height: auto;
+}
+
+/* Styling for the Event Listing */
+
+#mainmenu {
+    height: 0;
+    overflow: hidden;
+}
+
+#togglemenu {
+    display: block;
+}
+
+@media (min-width: 720px) {
+    #mainmenu {
+        height: auto;
+    }
+
+    #togglemenu {
+        display: none;
+    }
+}
+
+#searchbar {
+    font-size: 1.2rem;
+    height: auto;
+    padding: 2%;
+}
+
+#searchinfo p {
+    margin-bottom: 1.5rem;
+}
+
+.event {
+    width: 100%;
+    border: 1px solid rgb(100, 100, 100);
+    margin-bottom: 3vh;
+    clear: both;
+}
+
+.headerbar {
+    background-color: rgb(100, 100, 100);
+    color: white;
+    width: 100%;
+}
+
+.headerbar p {
+    margin: 0;
+    padding: 0 2%;
+    font-size: 1.2rem;
+}
+
+.headerbar .date {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.eventbody {
+    padding: 2%;
+}
+
+.event .event-title, .event .event-host {
+    margin-bottom: 0;
+}
+
+.titlerow {
+    margin-bottom: 2%;
+}
+
+.event .event-loc,
+.event .event-start-time,
+.event .event-end-time {
+    margin-bottom: 0;
+    font-size: 1rem;
+    text-align: right;
+}
+
+.event .event-poster {
+    width: 100%;
+    border: 1px solid rgb(100, 100, 100);
+}
+
+.event .event-desc {
+    font-size: 1rem;
+    overflow: hidden;
+    margin-bottom: 0;
+    max-height: 10rem;
+}
+
+@media (min-width: 720px) {
+    .event .event-desc {
+        max-height: 18rem;
+    }
+}
+
+#stickyhead {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+
+#stickyhead .headerbar {
+    position: absolute;
+    top: 0;
+    border: 1px solid rgb(100, 100, 100);
+}
+
+#noresults {
+    display: none;
+}
+
+.internal {
+    text-align: right;
+}
+
+/* Style footer */
+.footer {
+    text-align: center;
+    margin-top: 5vh;
+    padding-bottom: 5vh;
+}
+
+#timezone-spinner {
+    width: 50%;
+}
+
+label {
+    font-size: 1rem;
+}
+
+/* Buttons */
+
+.button {
+    overflow: hidden;
+}
+
+.button-primary {
+    background-color: #5599ff !important;
+    border-color: #5599ff !important;
+}
+
+.button-primary:hover {
+    background-color: #ff5555 !important;
+    border-color: #ff5555 !important;
+}
+
+.mediabuttons button {
+    height: 25px;
+    font-size: 10px;
+    line-height: 25px;
+    padding: 0 10px;
+}
+
+/* Style registration button */
+
+.big-button {
+    width: 50%;
+    height: auto;
+    margin: 0 auto;
+    padding: 1%;
+    display: block;
+    font-size: 1rem;
+    white-space: normal;
+}
+
+/* Style forms */
+label {
+    font-weight: 500;
+}
+
+.required:after {
+    content: " *";
+    color: red;
+}
+
+.errorlist {
+    font-size: 1rem;
+    color: red;
+    list-style-type: none;
+}
+
+.help {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: rgb(100, 100, 100);
+    margin-bottom: 0;
+}
+
+.help li {
+    margin-bottom: 0;
+}
+
+.help ul {
+    margin-bottom: 1rem;
+}

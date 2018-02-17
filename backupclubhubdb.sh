@@ -1,0 +1,1 @@
+docker exec clubhubdb pg_dump -U clubhub clubhubdb -f /opt/backup/clubhub_backup_$(date +%Y%m%d).sql

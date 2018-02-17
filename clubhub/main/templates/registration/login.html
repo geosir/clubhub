@@ -1,0 +1,95 @@
+{% extends "main/base.html" %}
+{% load add_class %}
+
+{% block title %}
+    Login | Club Hub
+{% endblock %}
+
+{% block content %}
+    <div id="events">
+        <div class="row">
+            <div class="three columns">
+                <button class="css-button-link button button-primary u-full-width"
+                        data-link="{% url 'index' %}">&lt; Home
+                </button>
+            </div>
+        </div>
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="event">
+                <div class="headerbar row">
+                    <div class="title six columns">
+                        <p>Login</p>
+                    </div>
+                    <div class="date six columns" align="right" style="display: none;">1</div>
+                </div>
+                <div class="eventbody">
+                    <div class="row">
+                        <div class="protip">
+                            <p><b>Why log in?</b></p>
+                            <p>Some events, like parties, are campus-internal.
+                                Only users registered with a valid school email can see those events.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="three columns" style="min-height: 1px;"></div>
+                        <div class="six columns">
+                            <div class="errorlist">
+                                {% if form.errors %}
+                                    <p>Your username and password didn't match. Please try again.</p>
+                                {% endif %}
+
+                                {% if next %}
+                                    {% if user.is_authenticated %}
+                                        <p>Your account doesn't have access to this page. To proceed,
+                                            please login with an account that has access.</p>
+                                    {% else %}
+                                        <p>Please login to see this page.</p>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            {% for field in form %}
+                                <div class="row">
+                                    <div class="twelve columns">
+                                        {{ field.label_tag }}
+                                        {% if field.help_text %}
+                                            <div class="help">{{ field.help_text|safe }}</div>
+                                        {% endif %}
+                                        {{ field|add_class:"u-full-width" }}
+                                        {{ field.errors }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="row">
+                                <div class="twelve columns">
+                                    <input type="submit" class="button button-primary u-full-width" value="login"/>
+                                    <input type="hidden" name="next" value="{{ next }}"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="twelve columns">
+                                    <button class="button u-full-width css-button-link"
+                                            type="button"
+                                            data-link="{% url 'signup' %}">
+                                        Sign up
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="twelve columns">
+                                    <button class="button u-full-width css-button-link"
+                                            type="button"
+                                            data-link="{% url 'recover_account' %}">
+                                        Forgot username or password
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="three columns" style="min-height: 1px;"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

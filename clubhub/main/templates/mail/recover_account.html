@@ -1,0 +1,75 @@
+{% load staticfiles %}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <style>
+        #wrapper {
+            font-family: 'Roboto', sans-serif !important;
+            font-weight: 300 !important;
+            max-width: 800px !important;
+            padding: 0 5% !important;
+        }
+
+        hr {
+            margin-bottom: 3vh;
+            border-width: 0;
+            border-top: 1px solid #E1E1E1;
+        }
+
+        .event {
+            width: 100%;
+            border: 1px solid #ff5555;
+            clear: both;
+        }
+
+        .headerbar {
+            background-color: #ff5555;
+            color: white;
+            width: 100%;
+        }
+
+        .headerbar p {
+            margin: 0;
+            padding: 1% 2%;
+            font-size: 1.2rem;
+        }
+
+        .eventbody {
+            padding: 2%;
+        }
+
+        #logo {
+            display: block;
+            width: 50%;
+            margin: 3vh auto 4vh auto;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <img src="{{ protocol }}://{{ domain }}{% static 'media/Club_Hub_Branding.png' %}" id="logo"/>
+    <hr>
+    <div class="event">
+        <div class="headerbar">
+            <div class="title"><p>Account Reset Directions</p></div>
+        </div>
+        <div class="eventbody">
+            <p>Hello {{ user.username }}!</p>
+            <p>You recently requested directions to reset your account because you forgot your username or password. If
+                you did not initiate this request, please ignore this email.</p>
+            <p>In case you forgot, your username is <b>{{ user.username }}</b></p>
+            <p>To reset your password, click on the link below:</p>
+            <p><a href="{{ protocol }}://{{ domain }}{% url 'password_reset' uidb64=uid token=token %}">
+                {{ protocol }}://{{ domain }}{% url 'password_reset' uidb64=uid token=token %}
+            </a></p>
+
+            <p>If you have any questions or concerns, please contact the Club Hub Administrator.</p>
+
+            <p>Thank you for using Club Hub!</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

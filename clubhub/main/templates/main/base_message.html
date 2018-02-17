@@ -1,0 +1,29 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <button id="returnbutton" class="button button-primary css-button-link" data-link="{% url "index" %}">
+        &lt; Return to Home
+    </button>
+
+    <div class="protip">
+        {% block message %}
+        {% endblock %}
+    </div>
+
+    {% block autoback %}
+        <!-- Automatic return-to-home. -->
+        <!-- In extensions, invoke as an empty block to disable. -->
+        <script>
+            var timeout = 3;
+            function updateReturnButton() {
+                if (timeout <= 0) {
+                    window.location.href = "{% url 'index' %}";
+                }
+                $("#returnbutton").text("< Returning to Home in " + timeout + "...");
+                timeout--;
+                setTimeout(updateReturnButton, 1000);
+            }
+            updateReturnButton();
+        </script>
+    {% endblock %}
+{% endblock %}

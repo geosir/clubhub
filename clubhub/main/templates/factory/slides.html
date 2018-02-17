@@ -1,0 +1,95 @@
+{% load staticfiles %}
+{% load sanitize %}
+
+<!-- Club Hub Slide Factory - Generates Event Slide Previews -->
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <!-- Include style files, jQuery, the ClubWall javascript code, and other important libraries -->
+    <title>Club Hub LIVE | Club Hub</title>
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "meta/skeleton.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "present/meta/clubhub.css" %}"/>
+    <script type="text/javascript" src="{% static "meta/bower_components/jQuery/dist/jquery.min.js" %}"></script>
+    <style>
+        .event {
+            display: block;
+            border-color: #ff5555;
+        }
+
+        .event .headerbar {
+            background-color: #ff5555;
+        }
+    </style>
+</head>
+
+<body>
+<!-- A little progress bar that is fixed to the screen -->
+<div id="timer">
+    <div id="timerstat"></div>
+</div>
+
+<!-- The slideshow itself. -->
+<div id="slideshow">
+    {% for poster in posters %}
+        <div class="event step" data-transition-duration="1000">
+            <a name="step-{{ forloop.counter }}"></a>
+            <div class="headerbar row">
+                <div class="title six columns">
+                    <p>{{ forloop.counter }}. {{ poster.event_name }}</p>
+                </div>
+                <div class="date six columns">
+                    <p align="right">{{ poster.event_start_datetime|date:"l, F j" }}</p>
+                </div>
+            </div>
+            {% if poster.display_fullscreen %}
+                <div class="eventbody fullposter" style="background-image: url('{{ poster.poster_file.url }}');"></div>
+            {% else %}
+                <div class="eventbody">
+                    <div class="titlerow row">
+                        <div class="six columns">
+                            <h1 class="event-title">{{ poster.event_name }}</h1>
+                            <p class="event-host"><i>By {{ poster.event_host }}</i></p>
+                        </div>
+                        <div class="six columns">
+                            <p class="event-start-time">
+                                <b>Starts:</b> {{ poster.event_start_datetime|date:"g:i A \o\n l , F j, Y" }}
+                            </p>
+                            <p class="event-end-time">
+                                <b>Ends:</b> {{ poster.event_end_datetime|date:"g:i A \o\n l , F j, Y" }}
+                            </p>
+                            <p class="event-loc">
+                                <b>Location:</b> {{ poster.event_location }}
+                                {% if poster.event_specific_location %}
+                                    ({{ poster.event_specific_location }})
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="body row">
+                        {% if poster.poster_file %}
+                            <div class="seven columns">
+                                <p class="event-desc">{{ poster.event_body|sanitize }}</p>
+                            </div>
+                            <div class="five columns event-poster"
+                                 style="background-image: url('{{ poster.poster_file.url }}');">
+                            </div>
+                        {% else %}
+                            <div class="twelve columns">
+                                <p class="event-desc">{{ poster.event_body|sanitize }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+{% block extrabody %}
+{% endblock %}
+</body>
+
+</html>

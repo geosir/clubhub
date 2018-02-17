@@ -1,0 +1,126 @@
+{% load staticfiles %}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <style>
+        #wrapper {
+            font-family: 'Roboto', sans-serif !important;
+            font-weight: 300 !important;
+            max-width: 800px !important;
+            padding: 0 5% !important;
+        }
+
+        hr {
+            margin-bottom: 3vh;
+            border-width: 0;
+            border-top: 1px solid #E1E1E1;
+        }
+
+        .event {
+            width: 100%;
+            border: 1px solid #ff5555;
+            clear: both;
+        }
+
+        .headerbar {
+            background-color: #ff5555;
+            color: white;
+            width: 100%;
+        }
+
+        .headerbar p {
+            margin: 0;
+            padding: 1% 2%;
+            font-size: 1.2rem;
+        }
+
+        .eventbody {
+            padding: 2%;
+        }
+
+        #logo {
+            display: block;
+            width: 50%;
+            margin: 3vh auto 4vh auto;
+        }
+
+        .poster {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <img src="{{ request.scheme }}://{{ request.get_host }}{% static 'media/Club_Hub_Branding.png' %}" id="logo"/>
+    <hr>
+    <div class="event">
+        <div class="headerbar">
+            <div class="title"><p>New Event Registration</p></div>
+        </div>
+        <div class="eventbody">
+            <p>Hello!</p>
+            <p><i>{{ event_host }}</i> has submitted <b>"{{ event_name }}"</b> to Club Hub.
+                The submission requires approval before it can be shown on Club Hub.
+                You can go to <a href="{{ request.scheme }}://{{ request.get_host }}/admin">Club Hub Central</a> to approve or reject
+                this
+                submission.</p>
+
+            <p>Submission details:</p>
+            <table style="width: 100%;" \>
+                <tr>
+                    <td>EVENT NAME</td>
+                    <td>{{ event_name }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT HOST</td>
+                    <td>{{ event_host }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT CONTACT</td>
+                    <td>{{ host_email }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT START DATETIME</td>
+                    <td>{{ event_start }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT END DATETIME</td>
+                    <td>{{ event_end }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT DESCRIPTION</td>
+                    <td>{{ event_body|safe }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT LOCATION</td>
+                    <td>{{ event_location }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT POSTER</td>
+                    <td>{{ event_poster_image|safe }}</td>
+                </tr>
+                <tr>
+                    <td>EVENT HUB GROUPS</td>
+                    <td>{{ event_hub_groups }}</td>
+                </tr>
+                <tr>
+                    <td>SLIDESHOW?</td>
+                    <td>{{ display_slideshow }}</td>
+                </tr>
+                <tr>
+                    <td>FULLSCREEN?</td>
+                    <td>{{ display_fullscreen }}</td>
+                </tr>
+            </table>
+            <br/>
+            <p>Thank you for using Club Hub!</p>
+        </div>
+    </div>
+    <p align="center" style="color: gray; font-size: 0.8em;"><i>
+        This is an automated message. Responses should be sent directly to the
+        Club Hub Administrator at <a href="mailto:{{ CLUBHUB_CONTACT_EMAIL }}">{{ CLUBHUB_CONTACT_EMAIL }}</a></i>.</p>
+</div>
+</body>
+</html>

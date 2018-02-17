@@ -1,0 +1,11 @@
+[
+  {
+    "model": "main.hubgroup",
+    "pk": "universal",
+    "fields": {
+      "description": "The Universal Hub Group. Events in this group are displayed on the main page.",
+      "active": true,
+      "internal": false
+    }
+  }
+]

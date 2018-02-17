@@ -1,0 +1,10 @@
+[
+  {
+    "model": "main.setting",
+    "pk": 1,
+    "fields": {
+      "key": "CLUBHUB_CONTACT_EMAIL",
+      "value": "admin@<domain>.clubhub.live"
+    }
+  }
+]

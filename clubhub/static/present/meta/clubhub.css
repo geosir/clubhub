@@ -1,0 +1,230 @@
+/* The Club Hub LIVE Stylesheets */
+/* Import fonts */
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+/* Set global styles */
+html {
+    font-size: 3vh;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background: url("../media/background.png");
+    background-size: cover;
+    background-position: center;
+}
+
+p {
+    font-size: 1rem;
+}
+
+h1,
+h2 {
+    font-family: 'Roboto Slab', serif;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+/* Styling for the Event Listing */
+
+hr {
+    margin: 0 auto 5vh 0;
+}
+
+.event {
+    width: 100vw;
+    height: 100vh;
+    margin-bottom: 3vh;
+    clear: both;
+    background: white;
+    position: relative;
+    display: none;
+}
+
+.headerbar {
+    background-color: rgb(100, 100, 100);
+    color: white;
+    width: 100%;
+    height: 8vh;
+    overflow: hidden;
+}
+
+.headerbar p {
+    margin: 0;
+    padding: 0 2vh;
+    font-size: 5vh;
+}
+
+.headerbar .date {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.eventbody {
+    position: absolute;
+    padding: 4vh;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 8vh;
+}
+
+.event .event-title, .event .event-host {
+    margin-bottom: 0;
+}
+
+.titlerow {
+    margin-bottom: 3vh;
+    min-height: 15vh;
+}
+
+.body {
+    position: relative;
+    height: 61vh;
+    overflow: hidden;
+}
+
+.event .event-loc,
+.event .event-start-time,
+.event .event-end-time {
+    margin-bottom: 0;
+    font-size: 1rem;
+    text-align: right;
+}
+
+.body .event-poster {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+.eventbody.fullposter {
+    background-color: black;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.event .event-desc {
+    font-size: 1rem;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+/* Styling for the progress bar */
+
+#timer {
+    position: fixed;
+    z-index: 100;
+    bottom: 1.8vh;
+    left: 2vw;
+    height: 0.5vh;
+    width: 20vw;
+    background-color: rgb(200, 200, 200);
+}
+
+#timerstat {
+    z-index: 101;
+    height: 0.5vh;
+    width: 100%;
+    background-color: rgb(85, 153, 255);
+}
+
+.countdown {
+    display: inline;
+    vertical-align: top;
+    margin: 0 2%;
+    font-size: 10em;
+    font-weight: bold;
+}
+
+/* TITLE CARD STYLES */
+
+.logobox {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 20%;
+    padding: 1% 2%;
+    z-index: 100;
+    text-align: center;
+}
+
+.logobox p {
+    margin: 2%;
+}
+
+.logobox img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+#credits {
+    margin-top: 5%;
+    width: 100%;
+    height: 12vh;
+    text-align: center;
+}
+
+#credits img {
+    height: 100%;
+    width: auto;
+}
+
+#titlecard {
+    display: block;
+    -webkit-clip-path: circle(0px at center);
+    clip-path: circle(0px at center);
+    background: url(https://source.unsplash.com/featured);
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+#logobox-toppad {
+    background-color: rgba(19, 89, 201, 0.5);
+    height: 20vh;
+    width: 100%;
+    margin: 0;
+}
+
+#logobox {
+    width: 100%;
+    height: 25vh;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2.5vh 0;
+}
+
+#logobox img {
+    display: block;
+    max-height: 100%;
+    max-width: 100%;
+    margin: auto;
+}
+
+#clubhubinfo {
+    position: absolute;
+    top: 50vh;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(19, 89, 201, 0.5);
+    font-size: 1.5em;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0;
+}

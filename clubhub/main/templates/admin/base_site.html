@@ -1,0 +1,120 @@
+{% extends "admin/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load tz %}
+
+{% localtime on %}
+
+    {% block title %}Club Hub Central | Club Hub{% endblock %}
+
+    {% block extrastyle %}
+        <link rel="stylesheet" type="text/css" href="{% static "meta/clubhub.css" %}"/>
+        <style>
+            #logo {
+                display: inline-block;
+                height: 48px;
+                vertical-align: bottom;
+            }
+
+            #site-name {
+                display: inline-block;
+                height: 48px;
+                line-height: 48px;
+                color: rgb(80, 80, 80) !important;
+                font-size: 48px !important;
+                vertical-align: bottom;
+                margin-left: 12px !important;
+            }
+
+            #header {
+                height: 64px;
+                background-color: white;
+                color: rgb(80, 80, 80);
+                display: table-cell;
+                vertical-align: middle;
+                width: 100vw;
+            }
+
+            #user-tools {
+                font-size: 12pt;
+            }
+
+            a {
+                color: rgb(85, 153, 255) !important;
+            }
+
+            body {
+                background-color: rgb(230, 230, 230);
+                margin: 0;
+                padding: 0;
+            }
+
+            body.login {
+                background-color: rgb(230, 230, 230) !important;
+            }
+
+            caption, .breadcrumbs, input[type="submit"].default {
+                background-color: rgb(85, 153, 255) !important;
+                color: white !important;
+            }
+
+            caption a.section {
+                font-size: 1.2em;
+            }
+
+            input[type="submit"].default:hover {
+                background-color: rgb(255, 153, 85) !important;
+            }
+
+            input[type="submit"]:hover {
+                background-color: rgb(85, 153, 255);
+            }
+
+            .object-tools a:hover {
+                background-color: rgb(80, 80, 80);
+            }
+
+            caption a, .breadcrumbs a, .object-tools a, a.deletelink {
+                color: white !important;
+            }
+
+            #footer {
+                width: 100%;
+                text-align: center;
+                color: rgb(80, 80, 80);
+                padding: 0;
+                font-size: 0.8rem;
+                margin: 5% 0;
+            }
+
+            #chcbrand {
+                text-align: center;
+                padding: 8px 0;
+            }
+
+        </style>
+    {% endblock %}
+
+    {% block extrahead %}
+        <script type="text/javascript" src="{% static "meta/bower_components/jQuery/dist/jquery.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "meta/gallerize/gallerize.js" %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static "meta/gallerize/gallerize.css" %}"/>
+        <link rel="shortcut icon" href="{% static "favicon.ico" %}"/>
+    {% endblock %}
+
+    {% block branding %}
+        <div id="chcbrand">
+            <a href="{% url 'admin:index' %}">
+                <img id="logo" src="{% static "media/Club_Hub_Branding.png" %}">
+                <h1 id="site-name">Central</h1>
+            </a>
+        </div>
+        <!--email_off-->
+    {% endblock %}
+
+    {% block footer %}
+        <!--/email_off-->
+        <div id="footer">Copyright &copy; 2017 George Moe</div>
+    {% endblock %}
+
+{% endlocaltime %}

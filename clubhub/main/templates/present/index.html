@@ -1,0 +1,117 @@
+{% load staticfiles %}
+{% load sanitize %}
+<!DOCTYPE HTML>
+<!-- Club Hub LIVE - An Automatic Event Slideshow -->
+<html>
+
+<head>
+    <!-- Include style files, jQuery, the ClubWall javascript code, and other important libraries -->
+    <title>Club Hub LIVE | Club Hub</title>
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "meta/normalize.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "meta/skeleton.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "present/meta/clubhub.css" %}"/>
+    <script type="text/javascript" src="{% static "meta/bower_components/jQuery/dist/jquery.min.js" %}"></script>
+    <script src="{% static "present/meta/clubhub.js" %}"></script>
+</head>
+
+<body>
+
+<!-- A little progress bar that is fixed to the screen -->
+<div id="timer">
+    <div id="timerstat"></div>
+</div>
+
+<!-- The slideshow itself. -->
+<div id="slideshow">
+    <!-- The main card shown at the beginning of each presentation cycle. Modify as you see fit. -->
+    <div class="step" data-transition-duration="5000">
+        <a name="step-0"></a>
+        <div class="event" id="titlecard">
+            <div id="logobox-toppad"></div>
+            <div id="logobox">
+                <img id="club-logo" src="{% static "present/media/Club_Hub_LIVE_Branding.png" %}" alt="Club Hub"/>
+            </div>
+            <div id="clubhubinfo">
+                <p style="margin-bottom: 0">version 4.1.2</p>
+                <p style="background: yellow; font-size: 1rem; padding: 2vh; color: black">See your event here! Submit a
+                    poster at <span style="font-weight: 700;">{{ request.get_host }}/submit</span>.</p>
+                <div id="credits">
+                    <img class="logo" src="{% static "media/georgemoe_logo.png" %}"
+                         alt="Created by George Moe"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Event Slides -->
+    <!-- Uses a similar format to 'main/index.html'. Refer to that for help -->
+    {% for poster in posters %}
+        <div id="event-{{ forloop.counter }}" class="event step" data-transition-duration="{{ poster.slide_duration }}">
+            <a name="step-{{ forloop.counter }}"></a>
+            <div class="headerbar row">
+                <div class="title six columns">
+                    <p>{{ forloop.counter }}. {{ poster.event_host }}</p>
+                </div>
+                <div class="date six columns">
+                    <p align="right">{{ poster.event_start_datetime|date:"l, F j" }}</p>
+                </div>
+            </div>
+            {% if poster.display_fullscreen %}
+                <div class="eventbody fullposter" style="background-image: url('{{ poster.poster_file.url }}');"></div>
+            {% else %}
+                <div class="eventbody">
+                    <div class="titlerow row">
+                        <div class="six columns">
+                            <h1 class="event-title">{{ poster.event_name }}</h1>
+                            <p class="event-host"><i>By {{ poster.event_host }}</i></p>
+                        </div>
+                        <div class="six columns">
+                            <p class="event-start-time">
+                                <b>Starts:</b> {{ poster.event_start_datetime|date:"g:i A \o\n l, F j, Y" }}
+                            </p>
+                            <p class="event-end-time">
+                                <b>Ends:</b> {{ poster.event_end_datetime|date:"g:i A \o\n l, F j, Y" }}
+                            </p>
+                            <p class="event-loc">
+                                <b>Location:</b> {{ poster.event_location }}
+                                {% if poster.event_specific_location %}
+                                    ({{ poster.event_specific_location }})
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="body row">
+                        {% if poster.poster_file %}
+                            <div class="seven columns">
+                                <p class="event-desc">{{ poster.event_body|sanitize }}</p>
+                            </div>
+                            <div class="five columns event-poster"
+                                 style="background-image: url('{{ poster.poster_file.url }}');">
+                            </div>
+                        {% else %}
+                            <div class="twelve columns">
+                                <p class="event-desc">{{ poster.event_body|sanitize }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    {#    Uncomment for a nice photo at the end of each slide cyle.#}
+    {#    <div class="step" id="unsplash" data-transition-duration="5000">#}
+    {#        <a name="step-{{ posters.count|add:"1" }}"></a>#}
+    {#        <div class="clubcard background" id="card-{{ posters.count|add:"1" }}"#}
+    {#             style="background-image: url(https://source.unsplash.com/featured);">#}
+    {#        </div>#}
+    {#    </div>#}
+</div>
+
+{% block extrabody %}
+    {#    Reserved for future extensions.#}
+{% endblock %}
+</body>
+
+</html>

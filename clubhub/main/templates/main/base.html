@@ -1,0 +1,97 @@
+{% load staticfiles %}
+{% load tz %}
+{% load get_timezones %}
+{% get_timezones as timezones %}
+{% get_current_timezone as TIME_ZONE %}
+
+<!-- Club Hub - The Base Template -->
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <!-- Viewport size fix for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Include style files, jQuery, the ClubWall javascript code, and other important libraries -->
+    <title>{% block title %}Club Hub{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}"/>
+
+    <link rel="stylesheet" type="text/css" href="{% static "meta/normalize.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "meta/skeleton.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "meta/clubhub.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "meta/gallerize/gallerize.css" %}"/>
+
+    {% block css-headers %}
+    {% endblock %}
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86648603-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+    </script>
+
+    <script type="text/javascript" src="{% static "meta/bower_components/jQuery/dist/jquery.min.js" %}"></script>
+    <script src="{% static "meta/readmore.min.js" %}"></script>
+    <script src="{% static "meta/js.cookie.js" %}"></script>
+    <script src="{% static "meta/clubhub.js" %}"></script>
+    <script type="text/javascript" src="{% static "meta/gallerize/gallerize.js" %}"></script>
+
+
+    {% block js-headers %}
+    {% endblock %}
+
+
+</head>
+
+<body>
+
+<!-- Main body content -->
+<div class="body container">
+    <div class="logobox">
+        <!-- The logo in the header. Replace the href and src here if you want to customize them. -->
+        <a href="{% url "index" %}"><img src="{% static "media/Club_Hub_Branding.png" %}"
+                                         alt="Club Hub"/></a>
+    </div>
+    <hr/>
+    {% block content %}
+    {% endblock %}
+
+    <!-- Sticky header -->
+    <div id="stickyhead"></div>
+</div>
+
+<!-- Footer -->
+<div class="footer container">
+    <hr/>
+    <div id="timezone-container">
+        <!-- Form to set the timezone -->
+        <form id="timezone-form" action="{% url 'set_timezone' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <label id="timezone-spinner-label" for="timezone-spinner">Timezone:</label>
+                <select id="timezone-spinner" name="timezone">
+                    {% for tz in timezones %}
+                        <option value="{{ tz }}"{% if tz == TIME_ZONE %}
+                                selected="selected"{% endif %}>{{ tz }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <!-- Button that links to the Club Hub about page. -->
+    <button class="button css-button-link" data-link="{% url "about" %}">Club Hub version 4.1.2</button>
+
+    <!-- Copyright line. Please attribute the original source to George Moe and https://george.moe in some way. -->
+    <p>Copyright &copy 2017 <a href="https://george.moe/">George Moe</a></p>
+    <a href="https://george.moe"><img id="gm-logo" class="logo" src="{% static "media/georgemoe_logo_dark.png" %}"
+                                      width="200px" style="margin-bottom: 1%"
+                                      alt="Created by George Moe"/></a>
+</div>
+
+</body>
+</html>
