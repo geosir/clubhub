@@ -159,7 +159,7 @@ Attribution
 
 The original idea and framework was formulated, designed, tested, and coded by [George Moe](https://george.moe "George's Website") since 2014. Attribution would be very much appreciated.
 
-This work is distributed under a GPLv3 license. See `LICENSE.md` for more details.
+This work is distributed under an MIT license. See `LICENSE.md` for more details.
 
 Contact and Support
 ----------------
