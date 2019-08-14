@@ -1,6 +1,8 @@
 # Club Hub Dockerfile
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
+RUN ln -fs /usr/share/UTC /etc/localtime
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get update -y && apt-get install -y python3-pip
 RUN apt-get update -y && apt-get install -y git

@@ -29,6 +29,8 @@ automatic return-to-home countdowns.
 2019-08-13
 
 * Froze proper module versions in requirements.txt.
+* Update to use Ubuntu 18.04 LTS in container.
+* Small style fixes.
 
 4.1.2
 -----
