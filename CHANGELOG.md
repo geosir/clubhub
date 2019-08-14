@@ -30,6 +30,7 @@ automatic return-to-home countdowns.
 
 * Froze proper module versions in requirements.txt.
 * Update to use Ubuntu 18.04 LTS in container.
+* Update to use python sendgrid 6.0 (API v3)
 * Small style fixes.
 
 4.1.2

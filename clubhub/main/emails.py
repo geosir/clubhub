@@ -2,9 +2,10 @@ from django.utils.html import escape
 from django.template.loader import render_to_string
 from django.core.mail.backends.base import BaseEmailBackend
 from django.conf import settings
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from .templatetags.sanitize import sanitize
 from .models import Setting
-import sendgrid
 import traceback
 
 
@@ -22,11 +23,11 @@ def make_event_email(template, event, request):
         'event_end': escape(event.event_end_datetime.strftime("%c %Z")),
         'event_body': sanitize(event.event_body),
         'event_location': ((escape(event.event_location) + " (" + escape(event.event_specific_location) + ")")
-                           if event.event_specific_location
-                           else escape(event.event_location)),
+        if event.event_specific_location
+        else escape(event.event_location)),
         'event_poster_image': (
-            '<img class="poster" src="' + request.scheme + "://" + request.get_host() + settings.MEDIA_URL + str(
-                event.poster_file) + '">')
+                '<img class="poster" src="' + request.scheme + "://" + request.get_host() + settings.MEDIA_URL + str(
+            event.poster_file) + '">')
         if event.poster_file else 'No poster.',
         'event_poster': "Yes" if event.poster_file else "No",
         'event_hub_groups': ", ".join([str(group) for group in event.hub_group.all()]),
@@ -40,40 +41,30 @@ def make_event_email(template, event, request):
 
 # Generate a SendGrid POST request with the given email parts.
 def make_sendgrid_data(to_emails, from_email, subject, message, reply_to=None):
-    data = {
-        'personalizations': [
-            {
-                'to': [{'email': email} for email in to_emails],
-                'subject': subject
-            }
-        ],
-        'from': {
-            'email': from_email
-        },
-        'content': [
-            {
-                'type': 'text/html',
-                'value': message
-            }
-        ]
-    }
+    message = Mail(from_email=from_email,
+                   to_emails=to_emails,
+                   subject=subject,
+                   html_content=message)
 
-    if reply_to and type(reply_to) is list and len(reply_to) > 0:
-        data['reply_to'] = {'email': reply_to[0]}
+    if reply_to is not None and \
+            (type(reply_to) is list or type(reply_to) is tuple) and \
+            len(reply_to) > 0 and type(reply_to[0]) is str:
+        # Only one reply_to is supported in SendGrid API V3
+        message.reply_to = reply_to[0]
 
-    return data
+    return message
 
 
 # A custom Django email backend that uses SendGrid
 class SendGridBackend(BaseEmailBackend):
     def __init__(self, *args, **kwargs):
-        self.sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_APIKEY)
+        self.sg = SendGridAPIClient(settings.SENDGRID_APIKEY)
         super().__init__(*args, **kwargs)
 
     def send_messages(self, email_messages):
         successful = 0
         for email in email_messages:
-            data = make_sendgrid_data(
+            message = make_sendgrid_data(
                 email.to,
                 email.from_email,
                 email.subject,
@@ -81,7 +72,7 @@ class SendGridBackend(BaseEmailBackend):
                 reply_to=email.reply_to
             )
             try:
-                self.sg.client.mail.send.post(request_body=data)
+                self.sg.send(message)
                 successful += 1
             except Exception:
                 traceback.print_exc()
