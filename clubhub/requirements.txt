@@ -1,5 +1,6 @@
-psycopg2
-Pillow
-Django
-pytz
-sendgrid
+Django==1.11.7
+Pillow==6.0.0
+psycopg2==2.8.2
+python-http-client==3.1.0
+pytz==2019.1
+sendgrid==5.6.0

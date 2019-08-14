@@ -1,5 +1,5 @@
 // Club Hub LIVE - The Automatic Slideshow Generator
-// Copyright (c) 2015-2017 George Moe - See LICENSE.md for more details.
+// Copyright (c) 2015-2019 George Moe - See LICENSE.md for more details.
 
 (function () {
     Number.prototype.mod = function (n) {

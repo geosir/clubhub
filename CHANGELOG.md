@@ -24,6 +24,12 @@ Group.
 * Style updates, including nicer message pages and better
 automatic return-to-home countdowns.
 
+4.1.3
+-----
+2019-08-13
+
+* Froze proper module versions in requirements.txt.
+
 4.1.2
 -----
 

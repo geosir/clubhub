@@ -3,7 +3,7 @@ Club Hub
 A Digital Event System for Schools
 
 ```
-Copyright (c) 2018 George Moe
+Copyright (c) 2019 George Moe
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
