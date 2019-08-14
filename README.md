@@ -82,6 +82,8 @@ Once Club Hub is online, be sure to edit the Settings in the admin panel to suit
 In particular, you should set the `CLUBHUB_CONTACT_EMAIL` setting.
 More guidance on settings can be found in the **Settings** section of this README.
 
+You should also add Locations and Hub Groups as needed in the admin panel. At least one Location must be added and active before events may be submitted.
+
 You can customize Club Hub by editing the templates in `clubhub/main/templates`.
 In particular,
  * `main` contains the templates for the main event listing,
@@ -130,8 +132,6 @@ Events can be added to multiple groups, and events in the `universal` group are 
 * **Don't show in the event listing.** - Don't show the event in the front-page listing or any `/h` group listings. The event will still appear in slideshows unless the previous option is also enabled.
 * **Slide Duration** - Control how long the event slide is shown for in the slideshow.
 
-
-
 You can enlist other users to help you with administration.
 There are three kinds of users:
 * **Superusers** are the technical administrators of Club Hub.
@@ -141,6 +141,7 @@ Superusers can also create and manage user accounts.
 They have full access over all events in the Club Hub database,
 and can create, modify, and delete them as needed. Their main role is
 to review new events and approve them for display on the Club Hub's public pages.
+Approvers are notified by email when there are new event submissions.
 * **Editors** are privileged event submitters.
 They can create and edit events directly in the Club Hub database without needing to use
 the submission form.
@@ -151,6 +152,9 @@ This role is meant to be given to frequent users that consistently submit valid 
 You can create and edit users at the `/admin/auth/user` URL. Users can be designated to these roles by adding them to the appropriate Group.
 Superusers can be created by checking the Superuser option on the User's profile. Make sure you enable "Staff Status" for these users so that they can log into the administration panel.
 These users will access the administration panel (with different permissions) through the same `/admin` URL.
+
+Note that by default the superuser is not an Approver, even though the superuser has full permissions. This means that the superuser is not notified for new event submissions. If you would like
+to receive notifications as the superuser, just edit your user under the Users editor and add yourself to the Approvers group.
 
 To deploy Club Hub on digital displays, you can direct the displays to show the `/present` page. This will display all events by default. To display specific subsets of posters, assign them to a Hub Group and use the `/present/h/<hub group name>` endpoint instead.
 Note that campus-internal restrictions apply to the presentation as well, so if you would like to display campus-internal events then the browser must be logged in. The slideshow works best in Google Chrome or Chromium browsers.
@@ -192,6 +196,10 @@ Then, edit the Approvers and/or Editors group to ensure that only the following 
 
 Make sure you edit `CLUBHUB_CONTACT_EMAIL` to suit your needs. See the "Settings" section above for directions.
 
+### There are no locations available in the "Event location" dropdown on the submit page
+
+You must add locations in the admin panel. To do this, create a new location under the Locations editor in the Main section of the admin panel.
+Make sure that "Active?" is checked when creating the location so that the location is activated.
 
 Attribution
 -----------
