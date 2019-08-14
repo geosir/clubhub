@@ -31,7 +31,9 @@ automatic return-to-home countdowns.
 * Froze proper module versions in requirements.txt.
 * Update to use Ubuntu 18.04 LTS in container.
 * Update to use python sendgrid 6.0 (API v3)
+* Updated README with more detailed documentation.
 * Small style fixes.
+* Bugfixes.
 
 4.1.2
 -----
@@ -154,7 +156,7 @@ This is the first version that is ready for use at IMSA.
 **Changes to the Club Hub Website:**
 
 * Fixed stability and memory issues with SUD Cast on Chromecasts.
-* Optimized Club Hub Present and the Synchronized Universal Display to use 
+* Optimized Club Hub Present and the Synchronized Universal Display to use
  an in-house lightweight jQuery slideshow solution.
 * Cleaned up code.
 

@@ -117,6 +117,20 @@ Club Hub Central can be accessed at the `/admin` URL.
 You can log in with the superuser credentials you created during installation; after logging in, you can create more users with different passwords and privileges.
 
 Administering events is easy. First, enter the event view by clicking on the "Events" link in the administration panel. Then, simply select the events you want to approve for display and choose "Approve selected events" in the Actions dropdown and hit "Go". You can also modify individual events by clicking on their name.
+When you do this, you'll see a page where you can edit the event fully. Some event properties of note include:
+
+* **Campus-internal?** - Enabling this option restricts the event to only logged-in users. Use this in conjunction with the `ALLOWED_EMAIL_SUFFIX` setting (explained below)
+to limit event visibility to only students and staff at your institution.
+* **Hub Group** - Assign events to groups so that different sets of events can be displayed at different locations. For example, perhaps a the Robotics Club would like their members to easily find their events.
+Then their events can be assigned to a `robotics` Hub Group, such that when users go to the `/h/robotics` URL, they'll only see events in that group.
+If the club has their own TV display and would like to show a slideshow of their events, then they can use `/present/h/robotics` to show only their events.
+Events can be added to multiple groups, and events in the `universal` group are displayed on the default index and present pages.
+* **Event Owners** - Events can be assigned to users. Users with Editor permissions (explained below) can edit events assigned to them by going to the `/admin` URL and clicking on "Events" in the administration panel.
+* **Don't show on Club Hub LIVE** - Don't show the event in any slideshows.
+* **Don't show in the event listing.** - Don't show the event in the front-page listing or any `/h` group listings. The event will still appear in slideshows unless the previous option is also enabled.
+* **Slide Duration** - Control how long the event slide is shown for in the slideshow.
+
+
 
 You can enlist other users to help you with administration.
 There are three kinds of users:
@@ -134,10 +148,12 @@ However, they can only see events which they have created and which have not yet
 They can also delete events which they can see (those they own and have not yet been approved).
 This role is meant to be given to frequent users that consistently submit valid events.
 
-Users can be designated to these roles by adding them to the appropriate Group.
-Superusers can be created by checking the Superuser option on the User's profile.
+You can create and edit users at the `/admin/auth/user` URL. Users can be designated to these roles by adding them to the appropriate Group.
+Superusers can be created by checking the Superuser option on the User's profile. Make sure you enable "Staff Status" for these users so that they can log into the administration panel.
+These users will access the administration panel (with different permissions) through the same `/admin` URL.
 
-To deploy Club Hub on digital displays, you can direct the displays to show the `/present` page. This will display all events by default. To display specific subsets of posters, assign them to a Display Group and use the `/present?group=<display group name>` endpoint instead.
+To deploy Club Hub on digital displays, you can direct the displays to show the `/present` page. This will display all events by default. To display specific subsets of posters, assign them to a Hub Group and use the `/present/h/<hub group name>` endpoint instead.
+Note that campus-internal restrictions apply to the presentation as well, so if you would like to display campus-internal events then the browser must be logged in. The slideshow works best in Google Chrome or Chromium browsers.
 
 Settings
 --------
@@ -145,6 +161,8 @@ Settings
 The Settings model control in the admin panel is a nice way to manage Club Hub's dynamic variables.
 You can change these settings at any time and Club Hub will immedately change to reflect them
 without needing a reboot via `runclubhub.sh`.
+
+Settings are edited through the administration panel under the "Settings" editor.
 
 Setting keys and their appropriate values are explained below:
 
@@ -154,14 +172,35 @@ Setting keys and their appropriate values are explained below:
 | `CLUBHUB_CONTACT_EMAIL` 	| A single email address managed by the Club Hub Administrator. This key may only be used once.                                                                    	|
 | `ALLOWED_EMAIL_SUFFIX`  	| An email suffix (e.g. `@example.com`) which users are permitted to use to sign up.  This key can be used as many times as needed. 	|
 
+
+Troubleshooting
+---------------
+
+### Approvers or Editors can edit the wrong items / can't see events
+
+Approvers and Editors should only be able to see the "Events" editor in their administration panel.
+If this is not the case, then there was a problem assigning permissions to the Approvers and/or Editors groups.
+
+To fix this, log into the administration panel as the superuser and open the Groups (not Hub Groups) editor under the Authentication and Authorization section.
+Then, edit the Approvers and/or Editors group to ensure that only the following three permissions are enabled for the groups:
+
+* main | event | Can add event
+* main | event | Can change event
+* main | event | Can delete event
+
+### `admin@<domain>.clubhub.live` showing up in emails
+
+Make sure you edit `CLUBHUB_CONTACT_EMAIL` to suit your needs. See the "Settings" section above for directions.
+
+
 Attribution
-----------------
+-----------
 
 The original idea and framework was formulated, designed, tested, and coded by [George Moe](https://george.moe "George's Website") since 2014. Attribution would be very much appreciated.
 
 This work is distributed under an MIT license. See `LICENSE.md` for more details.
 
 Contact and Support
-----------------
+-------------------
 
 If you have any questions or comments, or if you would like a flavor of Club Hub custom-built for your use case, you can contact George Moe at [george@george.moe](mailto:george@george.moe "Email George Moe").

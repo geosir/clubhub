@@ -5,9 +5,9 @@
     "fields": {
       "name": "Approvers",
       "permissions": [
-        7,
-        8,
-        9
+        1,
+        2,
+        3
       ]
     }
   },
@@ -17,9 +17,9 @@
     "fields": {
       "name": "Editors",
       "permissions": [
-        7,
-        8,
-        9
+        1,
+        2,
+        3
       ]
     }
   }

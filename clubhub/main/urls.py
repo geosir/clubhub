@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^submit/$', views.submit, name='submit'),
 
     # Slideshow views
-    url(r'^present/(?P<hub_group>[0-9A-Za-z_]+)$', views.present, name='present_group'),
+    url(r'^present/h/(?P<hub_group>[0-9A-Za-z_]+)$', views.present, name='present_group'),
     url(r'^present/$', views.present, {'hub_group': None}, name='present'),
     url(r'^factory/slides$', views.slide_factory, name='factory.slides'),
 

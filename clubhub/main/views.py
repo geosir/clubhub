@@ -115,6 +115,7 @@ def present(request, hub_group):
     else:
         # Filter events based on time and user privilege.
         posters = Event.get_approved().filter(event_end_datetime__gt=timezone.now(),
+                                              hub_group__in=[get_universal_group()],
                                               internal__in=[False, request.user.is_authenticated],
                                               display_no_slideshow=False).order_by(
             'event_start_datetime')
@@ -149,8 +150,13 @@ def submit(request):
         if form.is_valid():
             event = form.save()
 
+            # Attach owner to event, if user is logged in.
+            if request.user.is_authenticated:
+                event.owners.add(request.user)
+
             # Process Delta RTF object in event body
             event.event_body = unsafeHTMLFromDelta(form.cleaned_data['event_body'])
+
             event.save()
 
             # Generate emails to Approvers and Submitter

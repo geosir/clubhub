@@ -76,7 +76,7 @@ class Event(models.Model):
     poster_file = models.ImageField(blank=True, null=True, verbose_name="Poster File", upload_to=get_upload_path)
     slide_duration = models.IntegerField(default=20000, verbose_name="Slide Duration",
                                          help_text="Duration of slide on Club Hub LIVE in milleseconds.")
-    hide_from_registry = models.BooleanField(default=False, verbose_name="Don't show in the public registry.")
+    hide_from_registry = models.BooleanField(default=False, verbose_name="Don't show in the event listing.")
     approved = models.BooleanField(default=False, verbose_name="Event approved?")
     owners = models.ManyToManyField(User, blank=True, verbose_name="Event Owners")
     internal = models.BooleanField(default=False, verbose_name="Campus-internal?")
