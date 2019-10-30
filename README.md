@@ -1,6 +1,6 @@
 Club Hub
 ========
-A Digital Event System for Schools (Version 4.1.3)
+A Digital Event System for Schools (Version 4.1.4)
 
 > *Club Hub is now a hosted service! Visit [clubhub.live](https://clubhub.live) for more info.*
 

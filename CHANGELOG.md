@@ -24,6 +24,14 @@ Group.
 * Style updates, including nicer message pages and better
 automatic return-to-home countdowns.
 
+
+4.1.4
+-----
+2019-10-30
+
+* Update Django version to 1.11.23 to fix security vulnerabilities.
+* Migrate from Bower to use Yarn, as recommended.
+
 4.1.3
 -----
 2019-08-13

@@ -78,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'clubhubdb',
         'USER': 'clubhub',
-        'PASSWORD': 'YOUR DB PASSWORD',
+        'PASSWORD': 'YourDatabasePassword',
         'HOST': 'postgres',
         'PORT': '5432'
     }
